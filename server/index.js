@@ -10,6 +10,6 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 
-app.post("/api/v1", paymentRouter);
+app.use("/api/v1", paymentRouter);
 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));

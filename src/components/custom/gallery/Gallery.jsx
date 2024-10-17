@@ -1,96 +1,170 @@
+import React, { useEffect, useState } from "react";
+import {
+  Sparkles,
+  ArrowRight,
+  Heart,
+  Eye,
+  ShoppingBag,
+  Share2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react"; // Assuming you're using Lucide icons
+import { useDispatch } from "react-redux";
+import products from "../../../../data";
 
-function Gallery() {
+function CollectionCard({ collection, index }) {
+  const [isLiked, setIsLiked] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success(`✨ ${product.name} added to your magical wardrobe!`, {
+      style: {
+        border: "1px solid #e9d5ff",
+        padding: "16px",
+        color: "#6b21a8",
+      },
+      iconTheme: {
+        primary: "#a855f7",
+        secondary: "#ffffff",
+      },
+    });
+  };
+
   return (
-    <section className="text-gray-600 body-font">
-      <div className="container mx-auto px-5 py-24">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold leading-tight text-gray-900 mb-6">
-            Explore Our Latest Collections
-          </h1>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Discover our curated selection of top-notch clothing items and stylish outfits that are sure to elevate your wardrobe.
-          </p>
+    <div className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-2xl">
+      <div className="aspect-[4/5] relative overflow-hidden">
+        <img
+          src={collection.image}
+          alt={collection.title}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+
+        {/* Floating category badge */}
+        <div className="absolute top-6 left-6">
+          <Badge className="bg-white/90 text-purple-700 backdrop-blur-sm border-none px-4 py-1.5">
+            {collection.category}
+          </Badge>
         </div>
-        <div className="flex flex-col items-center space-y-8">
-          <div className="relative w-full h-96 overflow-hidden rounded-lg shadow-lg">
-            <img
-              alt="gallery"
-              className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 hover:opacity-90"
-              src="https://img.freepik.com/free-vector/flat-minimal-boutique-facebook-post_23-2149323789.jpg?w=1060&t=st=1721543721~exp=1721544321~hmac=3347cd5ed5fad439934bf2278d8681cd56e29b23dd5b8e4deab448e38f721275"
+
+        {/* Quick action buttons */}
+        <div className="absolute top-6 right-6 flex flex-col gap-3">
+          <button
+            onClick={() => setIsLiked(!isLiked)}
+            className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300"
+          >
+            <Heart
+              className={`w-5 h-5 transition-colors ${
+                isLiked ? "fill-red-500 text-red-500" : "text-gray-700"
+              }`}
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="text-center text-white relative z-10 px-4 py-6">
-                <h2 className="text-2xl font-semibold mb-2">Featured Collection</h2>
-                <p className="mb-4">Explore our most popular items and find your perfect style.</p>
-                <Link to="/products" className="inline-flex items-center text-indigo-300 hover:text-indigo-100">
-                  Learn More
-                  <ArrowRight className="w-4 h-4 ml-2" />
+          </button>
+          <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300">
+            <Share2 className="w-5 h-5 text-gray-700" />
+          </button>
+        </div>
+
+        {/* Overlay content */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <div className="space-y-4">
+              <div className="flex justify-between items-end">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {collection.name}
+                  </h3>
+                  <p className="text-white/90 text-lg font-semibold">
+                    {collection.price}
+                  </p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center gap-1 text-white/90">
+                    <Eye className="w-4 h-4" />
+                    <span className="text-sm">{collection.stats.views}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-white/90">
+                    <Heart className="w-4 h-4" />
+                    <span className="text-sm">{collection.stats.likes}</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-white/80 line-clamp-2">
+                {collection.description}
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  className="flex-1 bg-white text-purple-700 hover:bg-white/90"
+                  size="lg"
+                  onClick={() => handleAddToCart(collection)}
+                >
+                  <ShoppingBag className="w-4 h-4 mr-2" />
+                  Add to Cart
+                </Button>
+                <Link to={"/products"}>
+                  <Button
+                    variant="outline"
+                    className="bg-transparent border-white text-white hover:bg-white/20 hover:text-white"
+                    size="lg"
+                  >
+                    Details
+                  </Button>
                 </Link>
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap -mx-4">
-            <div className="px-4 w-full sm:w-1/2 lg:w-1/3 mb-8">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <div className="relative w-full h-80">
-                  <img
-                    alt="gallery"
-                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 hover:opacity-90"
-                    src="https://m.media-amazon.com/images/I/51gaACg68DL._SY679_.jpg"
-                  />
-                </div>
-                <div className="text-center py-6">
-                  <h3 className="text-xl font-semibold text-gray-900">Stylish Summer Picks</h3>
-                  <p className="mt-2 text-gray-600">Discover our summer collection with the latest trends in fashion.</p>
-                </div>
-              </div>
-            </div>
-            <div className="px-4 w-full sm:w-1/2 lg:w-1/3 mb-8">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <div className="relative w-full h-80">
-                  <img
-                    alt="gallery"
-                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 hover:opacity-90"
-                    src="https://m.media-amazon.com/images/I/81EHEXU10bL._SY679_.jpg"
-                  />
-                </div>
-                <div className="text-center py-6">
-                  <h3 className="text-xl font-semibold text-gray-900">Elegant Evening Wear</h3>
-                  <p className="mt-2 text-gray-600">Find the perfect outfit for your next evening event with our elegant collection.</p>
-                </div>
-              </div>
-            </div>
-            <div className="px-4 w-full sm:w-1/2 lg:w-1/3 mb-8">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-                <div className="relative w-full h-80">
-                  <img
-                    alt="gallery"
-                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 hover:opacity-90"
-                    src="https://m.media-amazon.com/images/I/610N1pajwKL._SX522_.jpg"
-                  />
-                </div>
-                <div className="text-center py-6">
-                  <h3 className="text-xl font-semibold text-gray-900">Casual Daily Wear</h3>
-                  <p className="mt-2 text-gray-600">Discover comfortable and stylish outfits for your everyday activities.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-center mt-8">
-            <Link
-              to="/products"
-              className="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-300 text-lg font-semibold"
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Gallery() {
+  const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    const data = products.slice(-3);
+    setCollections(data);
+  }, []);
+  return (
+    <section className="py-20 bg-gradient-to-b from-purple-50 to-pink-50">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <div className="max-w-2xl mx-auto text-center mb-16">
+          <Badge className="bg-purple-200 text-purple-700 hover:text-white hover:bg-black border-none px-4 py-1.5 mb-6">
+            New Collection
+          </Badge>
+          <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+            Discover Your Perfect Style
+          </h2>
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Experience the perfect blend of comfort and style with our magical
+            collection. Each piece is crafted to transform your wardrobe and
+            enhance your confidence.
+          </p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {collections.map((collection, index) => (
+            <CollectionCard key={index} collection={collection} index={index} />
+          ))}
+        </div>
+
+        {/* Footer CTA */}
+        <div className="mt-20 text-center">
+          <Link to="/products">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8"
             >
-              <span>View More Collections</span>
+              <Sparkles className="w-5 h-5 mr-2" />
+              View All Collections
               <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-          </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
   );
 }
-
-export default Gallery;

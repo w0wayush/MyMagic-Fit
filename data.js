@@ -227,7 +227,6 @@ const products = [
     price: 39.99,
     sizes: {
       M: { chest: 95, neck: 39, shoulder: 46, waist: 80, armLength: 59 },
-      
     },
     defaultSize: "M",
 
@@ -242,8 +241,61 @@ const products = [
       S: { chest: 92, neck: 39, shoulder: 45, waist: 77, armLength: 57 },
     },
     defaultSize: "S",
-
     fitPreference: ["Slim", "Regular"],
+  },
+  {
+    id: 21,
+    name: "Perfect Fit Finder",
+    description:
+      "Experience the magic of finding your ideal fit with our advanced sizing technology.",
+    category: "Smart Sizing",
+    image: "https://m.media-amazon.com/images/I/51gaACg68DL._SY679_.jpg",
+    price: 129.99,
+    sizes: {
+      S: { chest: 92, neck: 39, shoulder: 45, waist: 77, armLength: 57 },
+    },
+    defaultSize: "S",
+    fitPreference: ["Slim", "Regular"],
+    stats: {
+      likes: "2.3k",
+      views: "12k",
+    },
+  },
+  {
+    id: 22,
+    name: "Magical Transformations",
+    description:
+      "Discover outfits that transform your look and boost your confidence instantly.",
+    category: "Style Magic",
+    image: "https://m.media-amazon.com/images/I/81EHEXU10bL._SY679_.jpg",
+    price: 149.99,
+    sizes: {
+      S: { chest: 92, neck: 39, shoulder: 45, waist: 77, armLength: 57 },
+    },
+    defaultSize: "S",
+    fitPreference: ["Slim", "Regular"],
+    stats: {
+      likes: "1.8k",
+      views: "9k",
+    },
+  },
+  {
+    id: 23,
+    name: "Enchanted Everyday",
+    description:
+      "Elevate your daily wardrobe with perfectly fitted pieces that feel magical to wear.",
+    category: "Daily Magic",
+    image: "https://m.media-amazon.com/images/I/610N1pajwKL._SX522_.jpg",
+    price: 99.99,
+    sizes: {
+      S: { chest: 92, neck: 39, shoulder: 45, waist: 77, armLength: 57 },
+    },
+    defaultSize: "S",
+    fitPreference: ["Slim", "Regular"],
+    stats: {
+      likes: "1.5k",
+      views: "7k",
+    },
   },
 ];
 

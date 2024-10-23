@@ -165,7 +165,7 @@ const Products = () => {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-gray-900 text-center py-12">
+      <h1 className="text-4xl mt-24 py-3 font-bold text-gray-900 text-center">
         Our Popular Collections
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Pause, Play } from "lucide-react";
 
 const testimonials = [
   {
@@ -67,6 +68,8 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const sliderRef = useRef(null);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -76,6 +79,7 @@ const Testimonials = () => {
     autoplay: true,
     autoplaySpeed: 0,
     cssEase: "linear",
+    pauseOnHover: false,
     responsive: [
       {
         breakpoint: 1024,
@@ -94,14 +98,30 @@ const Testimonials = () => {
     ],
   };
 
+  const handleMouseEnter = () => {
+    sliderRef.current.slickPause();
+  };
+
+  const handleMouseLeave = () => {
+    sliderRef.current.slickPlay();
+  };
+
   return (
-    <section className="bg-white py-10 mb-10">
+    <section className="bg-white py-10 border-y-2">
       <div className="container mx-auto px-5 text-center">
-        <h2 className="text-3xl font-bold mb-6">What Our Customers Say</h2>
-        <Slider {...settings}>
+        <h2 className="text-3xl font-bold mb-6 text-black">
+          What Our Customers Say
+        </h2>
+        <Slider ref={sliderRef} {...settings}>
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="px-4">
-              <div className="bg-gray-100 p-6 rounded-lg shadow-lg h-full flex flex-col justify-between">
+            <div
+              key={index}
+              className="px-4"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={handleMouseEnter}
+            >
+              <div className="bg-gray-100 p-6 rounded-lg shadow-lg h-full flex flex-col justify-between border-2 border-slate-300 transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer mt-4 mb-10">
                 <p className="text-gray-700 mb-4">"{testimonial.review}"</p>
                 <div>
                   <p className="font-semibold">{testimonial.name}</p>
